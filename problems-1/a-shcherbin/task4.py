@@ -3,8 +3,7 @@ import sys
 
 
 def sorted_list_of_files() -> list:
-
-    if(len(sys.argv) < 2):
+    if (len(sys.argv) < 2):
         print("Enter directory path")
         return None
 
@@ -16,13 +15,13 @@ def sorted_list_of_files() -> list:
     inDir = os.listdir(sys.argv[1])
     for name in inDir:
         filePath = os.path.join(sys.argv[1], name)
-        if(os.path.isfile(filePath)):
+        if (os.path.isfile(filePath)):
             files.append((name, os.stat(filePath).st_size))
 
-    files.sort(key = lambda x: x[0])
-    files.sort(key = lambda x: x[1], reverse=True)
+    files = sorted(files, key=lambda f: (-f[1], f[0]))
 
     return files
+
 
 if __name__ == '__main__':
     sortedFiles = sorted_list_of_files()
