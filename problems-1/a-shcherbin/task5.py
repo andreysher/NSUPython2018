@@ -12,6 +12,7 @@ def is_prime(number) -> bool:
 
 
 if __name__ == '__main__':
+    print("Введите число:")
     n = int(input())
-    s = [x for x in range(2, n) if laba2.is_prime(x)]
+    s = [x for x in range(2, n) if is_prime(x)]
     print(s)
