@@ -1,3 +1,6 @@
+# coding: utf8
+
+
 class Vector:
     """Вектор линейной алгебры. Реализует операции умножения на константу при записи a*V,
      где a - константа V - вектор; При записи U*V выполняет операцию скалярного произведения,
@@ -30,62 +33,38 @@ class Vector:
         :param other: Объект этого же класса Vector
         :return: Сумма векторов линейной алгебры (объект класса Vector)
         """
-        rez = Vector([])
-        i = 0
-        try:
-            while i != len(self):
-                rez.myVector.append(self.myVector[i] + other.myVector[i])
-                i += 1
-            return rez
-        except TypeError:
-            print("Некорректные параметры!")
+        return Vector([values[0] + values[1] for values in zip(self.myVector, other.myVector)])
 
     def __sub__(self, other):
         """Операция вычитания векторов
-        :param other: Объект этого же класса Vector
-        :return:
+        :param other: Объект класса Vector
+        :return: Разность векторов
         """
-        rez = Vector([])
-        i = 0
-        try:
-            while i != len(self):
-                rez.myVector.append(self.myVector[i] - other.myVector[i])
-                i += 1
-            return rez
-        except TypeError:
-            print("Некорректные параметры!")
+        return Vector([values[0] - values[1] for values in zip(self.myVector, other.myVector)])
 
     def __rmul__(self, other):
-        """Операция умножения на константу
+        """Операция умножения на константу справа
         :param other: Числовая константа
-        :return: Вектор, умноженный на константу(в смысле линейной алгебры)
+        :return: Вектор, умноженный на константу
         """
-        rez = Vector([])
-        i = 0
-        while i != len(self):
-            rez.myVector.append(self.myVector[i] * other)
-            i += 1
-        return rez
+        return Vector([val * other for val in self.myVector])
 
     def __mul__(self, other):
-        """Операция скалярного произведения
+        """Операция скалярного произведения для векторов и умножения на константу слева
         :param other: Объект класса Vector
-        :return: Результат скалярного произведения векторов(в смысле линейной алгебры)
+        :return: Результат скалярного произведения векторов
         """
         if isinstance(other, Vector):
-            rez = Vector([])
-            i = 0
-            while i != len(self):
-                rez.myVector.append(self.myVector[i] * other.myVector[i])
-                i += 1
-            return rez
+            return sum([val[0] * val[1] for val in zip(self.myVector, other.myVector)])
+        if isinstance(other, (int, float)):
+            return Vector([val * other for val in self.myVector])
 
     def __eq__(self, other):
         """Проверка векторов на равенство
         :param other: Объект класса Vector
         :return: true если координаты векторов совпадают, false - иначе
         """
-        return self.myVector == other.myVector;
+        return self.myVector == other.myVector
 
     def __getitem__(self, item):
         """Получение элемента по индексу
@@ -105,8 +84,4 @@ class Vector:
         Вычисляет Евклидову длину вектора
         :return: Евклидова длина вектора
         """
-        res = 0
-        for cord in self.myVector:
-            res = res + cord ** 2
-        res = res ** 0.5
-        return res
+        return sum(v ** 2 for v in self.myVector) ** 0.5
